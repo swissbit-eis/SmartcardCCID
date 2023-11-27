@@ -142,14 +142,6 @@ am__installdirs = "$(DESTDIR)$(libdir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 am__DEPENDENCIES_1 =
 libccid_la_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
-am__libccid_la_SOURCES_DIST = ccid.c ccid.h ccid_ifdhandler.h \
-	commands.c commands.h debug.h defs.h ifdhandler.c \
-	sys_generic.h sys_unix.c utils.c utils.h ccid_usb.c ccid_usb.h \
-	tokenparser.l parser.h strlcpy.c misc.h strlcpycat.h \
-	simclist.c simclist.h debug.c towitoko/atr.c towitoko/atr.h \
-	towitoko/defines.h towitoko/pps.c towitoko/pps.h \
-	openct/buffer.c openct/buffer.h openct/checksum.c \
-	openct/checksum.h openct/proto-t1.c openct/proto-t1.h
 am__objects_1 = libccid_la-ccid.lo libccid_la-commands.lo \
 	libccid_la-ifdhandler.lo libccid_la-sys_unix.lo \
 	libccid_la-utils.lo
@@ -173,15 +165,6 @@ libccid_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(CFLAGS) $(libccid_la_LDFLAGS) $(LDFLAGS) -o $@
 @WITH_LIBUSB_TRUE@am_libccid_la_rpath = -rpath $(libdir)
 libccidtwin_la_DEPENDENCIES = $(am__DEPENDENCIES_1)
-am__libccidtwin_la_SOURCES_DIST = ccid.c ccid.h ccid_ifdhandler.h \
-	commands.c commands.h debug.h defs.h ifdhandler.c \
-	sys_generic.h sys_unix.c utils.c utils.h ccid_serial.c \
-	ccid_serial.h tokenparser.l parser.h strlcpy.c misc.h \
-	strlcpycat.h simclist.c simclist.h debug.c towitoko/atr.c \
-	towitoko/atr.h towitoko/defines.h towitoko/pps.c \
-	towitoko/pps.h openct/buffer.c openct/buffer.h \
-	openct/checksum.c openct/checksum.h openct/proto-t1.c \
-	openct/proto-t1.h
 am__objects_6 = libccidtwin_la-ccid.lo libccidtwin_la-commands.lo \
 	libccidtwin_la-ifdhandler.lo libccidtwin_la-sys_unix.lo \
 	libccidtwin_la-utils.lo
@@ -201,11 +184,14 @@ libccidtwin_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 	$(libccidtwin_la_CFLAGS) $(CFLAGS) $(libccidtwin_la_LDFLAGS) \
 	$(LDFLAGS) -o $@
 @WITH_TWIN_SERIAL_TRUE@am_libccidtwin_la_rpath = -rpath $(libdir)
-am__objects_11 = parse-tokenparser.$(OBJEXT) parse-strlcpy.$(OBJEXT) \
+am__objects_11 = parse-ccid.$(OBJEXT) parse-commands.$(OBJEXT) \
+	parse-ifdhandler.$(OBJEXT) parse-sys_unix.$(OBJEXT) \
+	parse-utils.$(OBJEXT)
+am__objects_12 = parse-tokenparser.$(OBJEXT) parse-strlcpy.$(OBJEXT) \
 	parse-simclist.$(OBJEXT)
-am_parse_OBJECTS = parse-parse.$(OBJEXT) parse-debug.$(OBJEXT) \
-	parse-ccid_usb.$(OBJEXT) parse-sys_unix.$(OBJEXT) \
-	$(am__objects_11)
+am_parse_OBJECTS = $(am__objects_11) parse-parse.$(OBJEXT) \
+	parse-debug.$(OBJEXT) parse-ccid_usb.$(OBJEXT) \
+	parse-sys_unix.$(OBJEXT) $(am__objects_12)
 parse_OBJECTS = $(am_parse_OBJECTS)
 parse_DEPENDENCIES = $(am__DEPENDENCIES_1)
 parse_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
@@ -245,11 +231,12 @@ am__depfiles_remade = ./$(DEPDIR)/libccid_la-ccid.Plo \
 	./$(DEPDIR)/libccidtwin_la-strlcpy.Plo \
 	./$(DEPDIR)/libccidtwin_la-sys_unix.Plo \
 	./$(DEPDIR)/libccidtwin_la-tokenparser.Plo \
-	./$(DEPDIR)/libccidtwin_la-utils.Plo \
-	./$(DEPDIR)/parse-ccid_usb.Po ./$(DEPDIR)/parse-debug.Po \
+	./$(DEPDIR)/libccidtwin_la-utils.Plo ./$(DEPDIR)/parse-ccid.Po \
+	./$(DEPDIR)/parse-ccid_usb.Po ./$(DEPDIR)/parse-commands.Po \
+	./$(DEPDIR)/parse-debug.Po ./$(DEPDIR)/parse-ifdhandler.Po \
 	./$(DEPDIR)/parse-parse.Po ./$(DEPDIR)/parse-simclist.Po \
 	./$(DEPDIR)/parse-strlcpy.Po ./$(DEPDIR)/parse-sys_unix.Po \
-	./$(DEPDIR)/parse-tokenparser.Po \
+	./$(DEPDIR)/parse-tokenparser.Po ./$(DEPDIR)/parse-utils.Po \
 	openct/$(DEPDIR)/libccid_la-buffer.Plo \
 	openct/$(DEPDIR)/libccid_la-checksum.Plo \
 	openct/$(DEPDIR)/libccid_la-proto-t1.Plo \
@@ -290,8 +277,8 @@ am__v_LEX_1 =
 YLWRAP = $(top_srcdir)/ylwrap
 SOURCES = $(libccid_la_SOURCES) $(libccidtwin_la_SOURCES) \
 	$(parse_SOURCES)
-DIST_SOURCES = $(am__libccid_la_SOURCES_DIST) \
-	$(am__libccidtwin_la_SOURCES_DIST) $(parse_SOURCES)
+DIST_SOURCES = $(libccid_la_SOURCES) $(libccidtwin_la_SOURCES) \
+	$(parse_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -347,7 +334,6 @@ EGREP = @EGREP@
 ETAGS = @ETAGS@
 EXEEXT = @EXEEXT@
 FGREP = @FGREP@
-FILECMD = @FILECMD@
 GREP = @GREP@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
@@ -519,7 +505,7 @@ libccidtwin_la_CFLAGS = $(PCSC_CFLAGS) $(PTHREAD_CFLAGS) $(SYMBOL_VISIBILITY) \
 
 libccidtwin_la_LIBADD = $(PTHREAD_LIBS)
 libccidtwin_la_LDFLAGS = -avoid-version
-parse_SOURCES = parse.c debug.c ccid_usb.c sys_unix.c $(TOKEN_PARSER)
+parse_SOURCES = $(COMMON) parse.c debug.c ccid_usb.c sys_unix.c $(TOKEN_PARSER)
 parse_LDADD = $(LIBUSB_LIBS)
 parse_CFLAGS = $(PCSC_CFLAGS) $(LIBUSB_CFLAGS) -DSIMCLIST_NO_DUMPRESTORE
 EXTRA_DIST = Info.plist.src create_Info_plist.pl reader.conf.in \
@@ -678,13 +664,17 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libccidtwin_la-sys_unix.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libccidtwin_la-tokenparser.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libccidtwin_la-utils.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parse-ccid.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parse-ccid_usb.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parse-commands.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parse-debug.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parse-ifdhandler.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parse-parse.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parse-simclist.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parse-strlcpy.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parse-sys_unix.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parse-tokenparser.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parse-utils.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@openct/$(DEPDIR)/libccid_la-buffer.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@openct/$(DEPDIR)/libccid_la-checksum.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@openct/$(DEPDIR)/libccid_la-proto-t1.Plo@am__quote@ # am--include-marker
@@ -936,6 +926,76 @@ openct/libccidtwin_la-proto-t1.lo: openct/proto-t1.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libccidtwin_la_CFLAGS) $(CFLAGS) -c -o openct/libccidtwin_la-proto-t1.lo `test -f 'openct/proto-t1.c' || echo '$(srcdir)/'`openct/proto-t1.c
 
+parse-ccid.o: ccid.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(parse_CFLAGS) $(CFLAGS) -MT parse-ccid.o -MD -MP -MF $(DEPDIR)/parse-ccid.Tpo -c -o parse-ccid.o `test -f 'ccid.c' || echo '$(srcdir)/'`ccid.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/parse-ccid.Tpo $(DEPDIR)/parse-ccid.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='ccid.c' object='parse-ccid.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(parse_CFLAGS) $(CFLAGS) -c -o parse-ccid.o `test -f 'ccid.c' || echo '$(srcdir)/'`ccid.c
+
+parse-ccid.obj: ccid.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(parse_CFLAGS) $(CFLAGS) -MT parse-ccid.obj -MD -MP -MF $(DEPDIR)/parse-ccid.Tpo -c -o parse-ccid.obj `if test -f 'ccid.c'; then $(CYGPATH_W) 'ccid.c'; else $(CYGPATH_W) '$(srcdir)/ccid.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/parse-ccid.Tpo $(DEPDIR)/parse-ccid.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='ccid.c' object='parse-ccid.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(parse_CFLAGS) $(CFLAGS) -c -o parse-ccid.obj `if test -f 'ccid.c'; then $(CYGPATH_W) 'ccid.c'; else $(CYGPATH_W) '$(srcdir)/ccid.c'; fi`
+
+parse-commands.o: commands.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(parse_CFLAGS) $(CFLAGS) -MT parse-commands.o -MD -MP -MF $(DEPDIR)/parse-commands.Tpo -c -o parse-commands.o `test -f 'commands.c' || echo '$(srcdir)/'`commands.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/parse-commands.Tpo $(DEPDIR)/parse-commands.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='commands.c' object='parse-commands.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(parse_CFLAGS) $(CFLAGS) -c -o parse-commands.o `test -f 'commands.c' || echo '$(srcdir)/'`commands.c
+
+parse-commands.obj: commands.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(parse_CFLAGS) $(CFLAGS) -MT parse-commands.obj -MD -MP -MF $(DEPDIR)/parse-commands.Tpo -c -o parse-commands.obj `if test -f 'commands.c'; then $(CYGPATH_W) 'commands.c'; else $(CYGPATH_W) '$(srcdir)/commands.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/parse-commands.Tpo $(DEPDIR)/parse-commands.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='commands.c' object='parse-commands.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(parse_CFLAGS) $(CFLAGS) -c -o parse-commands.obj `if test -f 'commands.c'; then $(CYGPATH_W) 'commands.c'; else $(CYGPATH_W) '$(srcdir)/commands.c'; fi`
+
+parse-ifdhandler.o: ifdhandler.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(parse_CFLAGS) $(CFLAGS) -MT parse-ifdhandler.o -MD -MP -MF $(DEPDIR)/parse-ifdhandler.Tpo -c -o parse-ifdhandler.o `test -f 'ifdhandler.c' || echo '$(srcdir)/'`ifdhandler.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/parse-ifdhandler.Tpo $(DEPDIR)/parse-ifdhandler.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='ifdhandler.c' object='parse-ifdhandler.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(parse_CFLAGS) $(CFLAGS) -c -o parse-ifdhandler.o `test -f 'ifdhandler.c' || echo '$(srcdir)/'`ifdhandler.c
+
+parse-ifdhandler.obj: ifdhandler.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(parse_CFLAGS) $(CFLAGS) -MT parse-ifdhandler.obj -MD -MP -MF $(DEPDIR)/parse-ifdhandler.Tpo -c -o parse-ifdhandler.obj `if test -f 'ifdhandler.c'; then $(CYGPATH_W) 'ifdhandler.c'; else $(CYGPATH_W) '$(srcdir)/ifdhandler.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/parse-ifdhandler.Tpo $(DEPDIR)/parse-ifdhandler.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='ifdhandler.c' object='parse-ifdhandler.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(parse_CFLAGS) $(CFLAGS) -c -o parse-ifdhandler.obj `if test -f 'ifdhandler.c'; then $(CYGPATH_W) 'ifdhandler.c'; else $(CYGPATH_W) '$(srcdir)/ifdhandler.c'; fi`
+
+parse-sys_unix.o: sys_unix.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(parse_CFLAGS) $(CFLAGS) -MT parse-sys_unix.o -MD -MP -MF $(DEPDIR)/parse-sys_unix.Tpo -c -o parse-sys_unix.o `test -f 'sys_unix.c' || echo '$(srcdir)/'`sys_unix.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/parse-sys_unix.Tpo $(DEPDIR)/parse-sys_unix.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='sys_unix.c' object='parse-sys_unix.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(parse_CFLAGS) $(CFLAGS) -c -o parse-sys_unix.o `test -f 'sys_unix.c' || echo '$(srcdir)/'`sys_unix.c
+
+parse-sys_unix.obj: sys_unix.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(parse_CFLAGS) $(CFLAGS) -MT parse-sys_unix.obj -MD -MP -MF $(DEPDIR)/parse-sys_unix.Tpo -c -o parse-sys_unix.obj `if test -f 'sys_unix.c'; then $(CYGPATH_W) 'sys_unix.c'; else $(CYGPATH_W) '$(srcdir)/sys_unix.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/parse-sys_unix.Tpo $(DEPDIR)/parse-sys_unix.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='sys_unix.c' object='parse-sys_unix.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(parse_CFLAGS) $(CFLAGS) -c -o parse-sys_unix.obj `if test -f 'sys_unix.c'; then $(CYGPATH_W) 'sys_unix.c'; else $(CYGPATH_W) '$(srcdir)/sys_unix.c'; fi`
+
+parse-utils.o: utils.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(parse_CFLAGS) $(CFLAGS) -MT parse-utils.o -MD -MP -MF $(DEPDIR)/parse-utils.Tpo -c -o parse-utils.o `test -f 'utils.c' || echo '$(srcdir)/'`utils.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/parse-utils.Tpo $(DEPDIR)/parse-utils.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='utils.c' object='parse-utils.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(parse_CFLAGS) $(CFLAGS) -c -o parse-utils.o `test -f 'utils.c' || echo '$(srcdir)/'`utils.c
+
+parse-utils.obj: utils.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(parse_CFLAGS) $(CFLAGS) -MT parse-utils.obj -MD -MP -MF $(DEPDIR)/parse-utils.Tpo -c -o parse-utils.obj `if test -f 'utils.c'; then $(CYGPATH_W) 'utils.c'; else $(CYGPATH_W) '$(srcdir)/utils.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/parse-utils.Tpo $(DEPDIR)/parse-utils.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='utils.c' object='parse-utils.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(parse_CFLAGS) $(CFLAGS) -c -o parse-utils.obj `if test -f 'utils.c'; then $(CYGPATH_W) 'utils.c'; else $(CYGPATH_W) '$(srcdir)/utils.c'; fi`
+
 parse-parse.o: parse.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(parse_CFLAGS) $(CFLAGS) -MT parse-parse.o -MD -MP -MF $(DEPDIR)/parse-parse.Tpo -c -o parse-parse.o `test -f 'parse.c' || echo '$(srcdir)/'`parse.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/parse-parse.Tpo $(DEPDIR)/parse-parse.Po
@@ -977,20 +1037,6 @@ parse-ccid_usb.obj: ccid_usb.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='ccid_usb.c' object='parse-ccid_usb.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(parse_CFLAGS) $(CFLAGS) -c -o parse-ccid_usb.obj `if test -f 'ccid_usb.c'; then $(CYGPATH_W) 'ccid_usb.c'; else $(CYGPATH_W) '$(srcdir)/ccid_usb.c'; fi`
-
-parse-sys_unix.o: sys_unix.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(parse_CFLAGS) $(CFLAGS) -MT parse-sys_unix.o -MD -MP -MF $(DEPDIR)/parse-sys_unix.Tpo -c -o parse-sys_unix.o `test -f 'sys_unix.c' || echo '$(srcdir)/'`sys_unix.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/parse-sys_unix.Tpo $(DEPDIR)/parse-sys_unix.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='sys_unix.c' object='parse-sys_unix.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(parse_CFLAGS) $(CFLAGS) -c -o parse-sys_unix.o `test -f 'sys_unix.c' || echo '$(srcdir)/'`sys_unix.c
-
-parse-sys_unix.obj: sys_unix.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(parse_CFLAGS) $(CFLAGS) -MT parse-sys_unix.obj -MD -MP -MF $(DEPDIR)/parse-sys_unix.Tpo -c -o parse-sys_unix.obj `if test -f 'sys_unix.c'; then $(CYGPATH_W) 'sys_unix.c'; else $(CYGPATH_W) '$(srcdir)/sys_unix.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/parse-sys_unix.Tpo $(DEPDIR)/parse-sys_unix.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='sys_unix.c' object='parse-sys_unix.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(parse_CFLAGS) $(CFLAGS) -c -o parse-sys_unix.obj `if test -f 'sys_unix.c'; then $(CYGPATH_W) 'sys_unix.c'; else $(CYGPATH_W) '$(srcdir)/sys_unix.c'; fi`
 
 parse-tokenparser.o: tokenparser.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(parse_CFLAGS) $(CFLAGS) -MT parse-tokenparser.o -MD -MP -MF $(DEPDIR)/parse-tokenparser.Tpo -c -o parse-tokenparser.o `test -f 'tokenparser.c' || echo '$(srcdir)/'`tokenparser.c
@@ -1196,13 +1242,17 @@ distclean: distclean-am
 	-rm -f ./$(DEPDIR)/libccidtwin_la-sys_unix.Plo
 	-rm -f ./$(DEPDIR)/libccidtwin_la-tokenparser.Plo
 	-rm -f ./$(DEPDIR)/libccidtwin_la-utils.Plo
+	-rm -f ./$(DEPDIR)/parse-ccid.Po
 	-rm -f ./$(DEPDIR)/parse-ccid_usb.Po
+	-rm -f ./$(DEPDIR)/parse-commands.Po
 	-rm -f ./$(DEPDIR)/parse-debug.Po
+	-rm -f ./$(DEPDIR)/parse-ifdhandler.Po
 	-rm -f ./$(DEPDIR)/parse-parse.Po
 	-rm -f ./$(DEPDIR)/parse-simclist.Po
 	-rm -f ./$(DEPDIR)/parse-strlcpy.Po
 	-rm -f ./$(DEPDIR)/parse-sys_unix.Po
 	-rm -f ./$(DEPDIR)/parse-tokenparser.Po
+	-rm -f ./$(DEPDIR)/parse-utils.Po
 	-rm -f openct/$(DEPDIR)/libccid_la-buffer.Plo
 	-rm -f openct/$(DEPDIR)/libccid_la-checksum.Plo
 	-rm -f openct/$(DEPDIR)/libccid_la-proto-t1.Plo
@@ -1278,13 +1328,17 @@ maintainer-clean: maintainer-clean-am
 	-rm -f ./$(DEPDIR)/libccidtwin_la-sys_unix.Plo
 	-rm -f ./$(DEPDIR)/libccidtwin_la-tokenparser.Plo
 	-rm -f ./$(DEPDIR)/libccidtwin_la-utils.Plo
+	-rm -f ./$(DEPDIR)/parse-ccid.Po
 	-rm -f ./$(DEPDIR)/parse-ccid_usb.Po
+	-rm -f ./$(DEPDIR)/parse-commands.Po
 	-rm -f ./$(DEPDIR)/parse-debug.Po
+	-rm -f ./$(DEPDIR)/parse-ifdhandler.Po
 	-rm -f ./$(DEPDIR)/parse-parse.Po
 	-rm -f ./$(DEPDIR)/parse-simclist.Po
 	-rm -f ./$(DEPDIR)/parse-strlcpy.Po
 	-rm -f ./$(DEPDIR)/parse-sys_unix.Po
 	-rm -f ./$(DEPDIR)/parse-tokenparser.Po
+	-rm -f ./$(DEPDIR)/parse-utils.Po
 	-rm -f openct/$(DEPDIR)/libccid_la-buffer.Plo
 	-rm -f openct/$(DEPDIR)/libccid_la-checksum.Plo
 	-rm -f openct/$(DEPDIR)/libccid_la-proto-t1.Plo

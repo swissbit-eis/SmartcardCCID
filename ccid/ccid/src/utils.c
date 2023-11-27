@@ -26,6 +26,7 @@
 #include "ccid_ifdhandler.h"
 #include "utils.h"
 #include "debug.h"
+#include "errno.h"
 
 int ReaderIndex[CCID_DRIVER_MAX_READERS];
 #define FREE_ENTRY -42
@@ -143,20 +144,12 @@ void p_bswap_32(void *ptr)
 
 void millisleep(long ms)
 {
-	struct timespec sleep_end;
-	if (clock_gettime(CLOCK_MONOTONIC, &sleep_end) == -1) {
-		DEBUG_INFO2("clock_gettime failed with %d", errno);
-		return;
-	}
-	sleep_end.tv_sec += ms / 1000L;
-	sleep_end.tv_nsec += (ms % 1000L) * 1000000L;
-	if (sleep_end.tv_nsec >= 1000000000L) {
-		sleep_end.tv_sec += 1;
-		sleep_end.tv_nsec -= 1000000000L;
-	}
+	struct timespec sleep;
+	sleep.tv_sec = ms / 1000L;
+	sleep.tv_nsec = (ms % 1000L) * 1000000L;
 	int r;
 	do {
-		r = clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &sleep_end, NULL);
+		r = nanosleep(&sleep, &sleep);
 	} while (r == EINTR);
 	if (r != 0) {
 		DEBUG_INFO2("clock_nanosleep failed with %d", errno);
