@@ -867,6 +867,8 @@ status_t WriteUSB(unsigned int reader_index, unsigned int length,
 	int actual_length;
 	char debug_header[] = "-> 121234 ";
 
+	millisleep(10);
+
 	(void)snprintf(debug_header, sizeof(debug_header), "-> %06X ",
 		(int)reader_index);
 

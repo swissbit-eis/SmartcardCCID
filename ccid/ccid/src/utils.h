@@ -28,3 +28,4 @@ void set_U16(void *, uint16_t);
 void set_U32(void *, uint32_t);
 void p_bswap_16(void *ptr);
 void p_bswap_32(void *ptr);
+void millisleep(long ms);
